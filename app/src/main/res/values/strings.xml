@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ZhiHuDaily</string>
+    <string name="action_settings">Settings</string>
+    <string name="generic_server_down">Network error, please retry.</string>
+    <string name="crash_handler_tishi">Colect crash info, please wait.</string>
+
+    <string name="title_activity_launch">LaunchActivity</string>
+</resources>
