@@ -1,5 +1,17 @@
 package com.android.liumeng.zhihudaily.utils;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.android.liumeng.zhihudaily.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -12,18 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.android.liumeng.zhihudaily.R;
 
 public class CrashHandler implements UncaughtExceptionHandler {
 	public static final String TAG = "CrashHandler";
@@ -170,7 +170,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			String fileName = "crash-" + time + "-" + timestamp + ".log";
 			if (Environment.getExternalStorageState().equals(
 					Environment.MEDIA_MOUNTED)) {
-				String path = "/sdcard/qjdcrash/";
+				String path = "/sdcard/zhihudaily/crash/";
 				File dir = new File(path);
 				if (!dir.exists()) {
 					dir.mkdirs();

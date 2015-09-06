@@ -12,6 +12,8 @@ import java.io.File;
 public class Utils {
     public static final int VOLLEY_RESPONSE_ERROR = 1000;
 
+    public static final String APP_PREFERENCE = "zhd_preference";
+
     public static final String UIL_CACHE_DIR = "zhihudaily/uil";
     public static final String LAUNCH_IMG_DIR = "zhihudaily/launch";
 

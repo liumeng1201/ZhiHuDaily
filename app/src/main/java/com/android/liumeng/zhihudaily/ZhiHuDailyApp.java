@@ -1,9 +1,10 @@
 package com.android.liumeng.zhihudaily;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.android.liumeng.zhihudaily.net.RequestManager;
-import com.android.liumeng.zhihudaily.utils.CrashHandler;
 import com.android.liumeng.zhihudaily.utils.Utils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -23,10 +24,10 @@ public class ZhiHuDailyApp extends Application {
 
         RequestManager.init(this);
 
-        if (BuildConfig.DEBUG) {
-            CrashHandler crashHandler = CrashHandler.getInstance();
-            crashHandler.init(getApplicationContext());
-        }
+//        if (BuildConfig.DEBUG) {
+//            CrashHandler crashHandler = CrashHandler.getInstance();
+//            crashHandler.init(getApplicationContext());
+//        }
 
         // Create global configuration and initialize ImageLoader with this config
         File uilCacheDir = new File(Utils.getFolderPath(Utils.UIL_CACHE_DIR));
@@ -46,5 +47,20 @@ public class ZhiHuDailyApp extends Application {
                 .defaultDisplayImageOptions(options)
                 .build();
         ImageLoader.getInstance().init(config);
+    }
+
+    // 设置启动封面的路径
+    public void setLaunchImg(String path) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Utils.APP_PREFERENCE, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("launch_image", path);
+        editor.apply();
+    }
+
+    // 获取启动封面的路径
+    public String getLaunchImg() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Utils.APP_PREFERENCE, Activity.MODE_PRIVATE);
+        String path = sharedPreferences.getString("launch_image", null);
+        return path;
     }
 }
