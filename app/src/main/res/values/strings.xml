@@ -4,8 +4,8 @@
     <string name="generic_server_down">Network error, please retry.</string>
     <string name="crash_handler_tishi">Colect crash info, please wait.</string>
 
-    <string name="title_activity_launch">LaunchActivity</string>
-    <string name="title_activity_daily_details">DailyDetailsActivity</string>
+    <string name="title_activity_launch">Launch</string>
+    <string name="title_activity_daily_details">Daily Details</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

@@ -1,11 +1,7 @@
 package com.android.liumeng.zhihudaily.utils;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.io.Serializable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import android.os.Handler;
+import android.os.Message;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,8 +13,12 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import android.os.Handler;
-import android.os.Message;
+import java.io.File;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DownloadHelper implements Serializable {
 	private static final long serialVersionUID = 2525100856184648815L;
@@ -353,14 +353,14 @@ public class DownloadHelper implements Serializable {
 		public void onGoon(int downloadId, long localSize); // 回调继续下载
 	}
 
-	public boolean getFile(File file, String mFileName) {
+	public boolean downloadFileExist(File file, String mFileName) {
 		boolean fileExist = false;
 		if (file.exists()) {
 			File[] files = file.listFiles();
 			for (int i = 0; i < files.length; i++) {
 				File mf = files[i];
 				if (mf.isDirectory()) {
-					getFile(mf, mFileName);
+					downloadFileExist(mf, mFileName);
 				}
 				String name = mf.getName();
 				if (mFileName.equals(name)) {
