@@ -91,6 +91,7 @@ public class MainActivity extends VolleyBaseCompatActivity {
         });
 
         setSupportActionBar(toolbar);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         refreshLayout.setOnRefreshListener(refreshListener);
         listView.setHasFixedSize(true);
         listView.setLayoutManager(layoutManager);
@@ -98,6 +99,7 @@ public class MainActivity extends VolleyBaseCompatActivity {
         listView.setAdapter(adapter);
         listView.addOnScrollListener(scrollListener);
 
+        refreshLayout.setRefreshing(true);
         getLatestDailies();
         getLaunchImg();
     }

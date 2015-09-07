@@ -48,6 +48,11 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.MyVi
         DailyItem item = items.get(position);
         ImageLoader.getInstance().displayImage(item.images.get(0), holder.image);
         holder.title.setText(item.title);
+        if (item.multipic) {
+            holder.imageMulti.setVisibility(View.VISIBLE);
+        } else {
+            holder.imageMulti.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -58,6 +63,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.MyVi
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView image;
         TextView title;
+        ImageView imageMulti;
         RecyclerClickListner clickListener;
 
         public MyViewHolder(View itemView, RecyclerClickListner clickListener) {
@@ -65,6 +71,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.MyVi
             this.clickListener = clickListener;
             image = (ImageView) itemView.findViewById(R.id.daily_item_image);
             title = (TextView) itemView.findViewById(R.id.daily_item_title);
+            imageMulti = (ImageView) itemView.findViewById(R.id.daily_item_image_multi);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

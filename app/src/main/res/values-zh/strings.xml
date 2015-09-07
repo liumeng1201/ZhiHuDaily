@@ -4,5 +4,5 @@
     <string name="generic_server_down">网络出现问题，请重试。</string>
     <string name="crash_handler_tishi">正在收集错误信息，请稍候。</string>
     <string name="title_activity_launch">启动</string>
-    <string name="title_activity_daily_details">日报详情</string>
+    <string name="title_activity_daily_details">查看日报</string>
 </resources>

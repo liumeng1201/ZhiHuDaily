@@ -50,7 +50,7 @@ public class LaunchActivity extends VolleyBaseCompatActivity {
             }
         });
         ImageLoader.getInstance().displayImage(StringUtils.isEmpty(application.getLaunchImg()) ?
-                "drawable://" + R.mipmap.ic_launcher : "file://" + application.getLaunchImg(), imageview);
+                "drawable://" + R.drawable.splash : "file://" + application.getLaunchImg(), imageview);
         imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageview.startAnimation(scaleAnim);
         handler.sendEmptyMessageDelayed(START_MAIN_ACTIVITY, 2000);

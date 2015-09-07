@@ -8,10 +8,56 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <WebView
-        android:id="@+id/webview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar" />
+        android:layout_below="@id/app_bar">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/daily_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/daily_details_image_forground" />
+
+                <TextView
+                    android:id="@+id/image_source"
+                    style="@style/DailyDetailsSourceTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="8dp" />
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/DailyDetailsTitleTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/image_source"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp" />
+            </RelativeLayout>
+        </FrameLayout>
+    </ScrollView>
 
 </RelativeLayout>

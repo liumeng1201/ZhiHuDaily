@@ -13,4 +13,16 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="DailyItemTitleTheme" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/textColorPrimaryInverse</item>
+    </style>
+
+    <style name="DailyDetailsTitleTheme" parent="Base.TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="DailyDetailsSourceTheme" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
 </resources>
