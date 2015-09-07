@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.liumeng.zhihudaily.R;
 import com.android.liumeng.zhihudaily.utils.StringUtils;
@@ -14,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class LaunchActivity extends VolleyBaseCompatActivity {
     private ImageView imageview;
+    private TextView imageTitle;
 
     private final int START_MAIN_ACTIVITY = 2000;
     private Handler handler = new Handler() {
@@ -34,6 +36,7 @@ public class LaunchActivity extends VolleyBaseCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        imageTitle = (TextView) findViewById(R.id.launch_imageTitle);
         imageview = (ImageView) findViewById(R.id.launch_imageview);
         Animation scaleAnim = AnimationUtils.loadAnimation(activity, R.anim.start_page_scale_animation);
         scaleAnim.setAnimationListener(new Animation.AnimationListener() {
@@ -49,8 +52,9 @@ public class LaunchActivity extends VolleyBaseCompatActivity {
             public void onAnimationEnd(Animation animation) {
             }
         });
-        ImageLoader.getInstance().displayImage(StringUtils.isEmpty(application.getLaunchImg()) ?
-                "drawable://" + R.drawable.splash : "file://" + application.getLaunchImg(), imageview);
+        ImageLoader.getInstance().displayImage(StringUtils.isEmpty(application.getLaunchImg().img) ?
+                "drawable://" + R.drawable.splash : "file://" + application.getLaunchImg().img, imageview);
+        imageTitle.setText(application.getLaunchImg().text);
         imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageview.startAnimation(scaleAnim);
         handler.sendEmptyMessageDelayed(START_MAIN_ACTIVITY, 2000);

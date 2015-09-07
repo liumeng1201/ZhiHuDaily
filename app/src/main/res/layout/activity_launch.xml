@@ -16,4 +16,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="64dp"
         android:src="@mipmap/splash_logo" />
+
+    <TextView
+        android:id="@+id/launch_imageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
 </RelativeLayout>

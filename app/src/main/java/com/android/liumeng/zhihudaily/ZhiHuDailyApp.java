@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.android.liumeng.zhihudaily.model.LaunchImgItem;
 import com.android.liumeng.zhihudaily.net.RequestManager;
 import com.android.liumeng.zhihudaily.utils.Utils;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -50,17 +52,21 @@ public class ZhiHuDailyApp extends Application {
     }
 
     // 设置启动封面的路径
-    public void setLaunchImg(String path) {
+    public void setLaunchImg(LaunchImgItem item) {
         SharedPreferences sharedPreferences = getSharedPreferences(Utils.APP_PREFERENCE, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("launch_image", path);
+        editor.putString("launch_image", new Gson().toJson(item));
         editor.apply();
     }
 
     // 获取启动封面的路径
-    public String getLaunchImg() {
+    public LaunchImgItem getLaunchImg() {
         SharedPreferences sharedPreferences = getSharedPreferences(Utils.APP_PREFERENCE, Activity.MODE_PRIVATE);
-        String path = sharedPreferences.getString("launch_image", null);
-        return path;
+        String info = sharedPreferences.getString("launch_image", null);
+        LaunchImgItem item = new Gson().fromJson(info, LaunchImgItem.class);
+        if (item == null) {
+            item = new LaunchImgItem();
+        }
+        return item;
     }
 }

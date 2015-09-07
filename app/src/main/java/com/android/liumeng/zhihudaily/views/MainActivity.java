@@ -140,7 +140,7 @@ public class MainActivity extends VolleyBaseCompatActivity {
                 dailyList.addAll(before.stories);
                 break;
             case GET_LAUNCH_IMG:
-                LaunchImgItem imgItem = gson.fromJson(payload, LaunchImgItem.class);
+                final LaunchImgItem imgItem = gson.fromJson(payload, LaunchImgItem.class);
                 if (!StringUtils.isEmpty(imgItem.img)) {
                     final DownloadHelper downloadHelper = new DownloadHelper((int) System.currentTimeMillis(), imgItem.img, Utils.getFolderPath(Utils.LAUNCH_IMG_DIR));
                     downloadHelper.setOnDownloadListener(new DownloadHelper.OnDownloadListener() {
@@ -152,7 +152,10 @@ public class MainActivity extends VolleyBaseCompatActivity {
 
                         @Override
                         public void onSuccess(int downloadId) {
-                            application.setLaunchImg(Utils.getFolderPath(Utils.LAUNCH_IMG_DIR) + "/" + downloadHelper.getFileName());
+                            LaunchImgItem item = new LaunchImgItem();
+                            item.img = Utils.getFolderPath(Utils.LAUNCH_IMG_DIR) + "/" + downloadHelper.getFileName();
+                            item.text = imgItem.text;
+                            application.setLaunchImg(item);
                         }
 
                         @Override
@@ -173,6 +176,11 @@ public class MainActivity extends VolleyBaseCompatActivity {
                     });
                     if (!downloadHelper.downloadFileExist(new File(Utils.getFolderPath(Utils.LAUNCH_IMG_DIR)), downloadHelper.getFileName())) {
                         downloadHelper.start(false);
+                    } else {
+                        LaunchImgItem item = new LaunchImgItem();
+                        item.img = Utils.getFolderPath(Utils.LAUNCH_IMG_DIR) + "/" + downloadHelper.getFileName();
+                        item.text = imgItem.text;
+                        application.setLaunchImg(item);
                     }
                 }
                 break;
