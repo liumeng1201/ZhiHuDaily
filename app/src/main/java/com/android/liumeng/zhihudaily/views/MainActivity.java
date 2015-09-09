@@ -1,5 +1,6 @@
 package com.android.liumeng.zhihudaily.views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.view.View;
 
 import com.android.liumeng.zhihudaily.R;
 import com.android.liumeng.zhihudaily.adapter.DailyListAdapter;
+import com.android.liumeng.zhihudaily.components.CustomDialog;
 import com.android.liumeng.zhihudaily.listener.MyRecyclerViewScrollListener;
 import com.android.liumeng.zhihudaily.listener.RecyclerClickListner;
 import com.android.liumeng.zhihudaily.model.DailyBefore;
@@ -33,7 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends VolleyBaseCompatActivity {
+public class MainActivity extends VolleyBaseCompatActivity implements CustomDialog.CustomDialogClickListener {
     private Toolbar toolbar;
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView listView;
@@ -200,8 +202,26 @@ public class MainActivity extends VolleyBaseCompatActivity {
 
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_about) {
+            CustomDialog customDialog = new CustomDialog();
+            Bundle args = new Bundle();
+            args.putString(CustomDialog.TITLE, getString(R.string.action_about));
+            args.putString(CustomDialog.MESSAGE, getString(R.string.about_message));
+            args.putString(CustomDialog.POSITIVE, getString(R.string.ok));
+            customDialog.setArguments(args);
+            customDialog.show(getSupportFragmentManager(), "about dialog");
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void positiveClick(DialogInterface dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void negativeClick(DialogInterface dialog) {
+        dialog.dismiss();
     }
 }

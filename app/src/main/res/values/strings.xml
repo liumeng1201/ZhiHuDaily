@@ -6,4 +6,7 @@
 
     <string name="title_activity_launch">Launch</string>
     <string name="title_activity_daily_details">Watch Daily</string>
+    <string name="action_about">About</string>
+    <string name="about_message">Zhihu is a trademark of Zhihu. Inc. This app is not created nor endorsed by Zhihu Inc. All the infomation and content accessible through Zhihu Daily Purify are subject to Zhihu\'s copyright and terms of use. This is a free app and does not charge for anything. All content are available for free from Zhihu.\nYou can get source code at: https://github.com/liumeng1201/ZhiHuDaily</string>
+    <string name="ok">OK</string>
 </resources>
