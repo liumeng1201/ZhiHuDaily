@@ -14,7 +14,12 @@ import com.android.liumeng.zhihudaily.model.DailyItem;
 import com.android.liumeng.zhihudaily.model.ListItem;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by liumeng on 2015/9/11.
@@ -24,9 +29,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CustomViewHold
     private List<ListItem> items;
     private RecyclerClickListner clickListener;
 
+    private Calendar calendar;
+    private SimpleDateFormat simpleDateFormat;
+    private DateFormat dateFormat = DateFormat.getDateInstance();
+
     public ListAdapter(Context context, List<ListItem> items) {
         this.items = items;
         inflater = LayoutInflater.from(context);
+
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
     }
 
     public void refresh(List<ListItem> items) {
@@ -64,7 +76,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.CustomViewHold
                 holder.imageMulti.setVisibility(View.GONE);
             }
         } else if (item.type == ListItem.DATE) {
-            holder.date.setText((String) item.item);
+            try {
+                calendar.setTime(simpleDateFormat.parse((String) item.item));
+                calendar.add(Calendar.DAY_OF_YEAR, 0);
+            } catch (ParseException ignored) { }
+            holder.date.setText(dateFormat.format(calendar.getTime()));
         }
     }
 
