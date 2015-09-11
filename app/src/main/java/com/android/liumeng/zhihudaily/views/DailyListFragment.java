@@ -13,12 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.liumeng.zhihudaily.R;
-import com.android.liumeng.zhihudaily.adapter.DailyListAdapter;
+import com.android.liumeng.zhihudaily.adapter.ListAdapter;
 import com.android.liumeng.zhihudaily.listener.MyRecyclerViewScrollListener;
 import com.android.liumeng.zhihudaily.listener.RecyclerClickListner;
 import com.android.liumeng.zhihudaily.model.DailyBefore;
 import com.android.liumeng.zhihudaily.model.DailyItem;
 import com.android.liumeng.zhihudaily.model.DailyLatest;
+import com.android.liumeng.zhihudaily.model.ListItem;
 import com.android.liumeng.zhihudaily.net.RequestManager;
 import com.android.liumeng.zhihudaily.net.Urls;
 import com.android.volley.Request;
@@ -37,9 +38,9 @@ public class DailyListFragment extends VolleyBaseFragment {
     private SwipeRefreshLayout.OnRefreshListener refreshListener;
     private RecyclerView.LayoutManager layoutManager;
     private MyRecyclerViewScrollListener scrollListener;
-    private DailyListAdapter adapter;
+    private ListAdapter adapter;
 
-    private List<DailyItem> dailyList;
+    private List<ListItem> dailyList;
     private String date;
 
     private Gson gson;
@@ -60,7 +61,7 @@ public class DailyListFragment extends VolleyBaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         gson = new Gson();
-        dailyList = new ArrayList<DailyItem>();
+        dailyList = new ArrayList<ListItem>();
         refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,12 +78,12 @@ public class DailyListFragment extends VolleyBaseFragment {
         };
 
         layoutManager = new LinearLayoutManager(activity);
-        adapter = new DailyListAdapter(activity, dailyList);
+        adapter = new ListAdapter(activity, dailyList);
         adapter.setOnClickListener(new RecyclerClickListner() {
             @Override
             public void onItemClick(View view, int postion) {
                 Intent intent = new Intent(activity, DailyDetailsActivity.class);
-                intent.putExtra("id", dailyList.get(postion).id);
+                intent.putExtra("id", ((DailyItem)dailyList.get(postion).item).id);
                 startActivity(intent);
             }
 
@@ -123,12 +124,15 @@ public class DailyListFragment extends VolleyBaseFragment {
             case GET_LATEST_DAILIES:
                 DailyLatest lates = gson.fromJson(payload, DailyLatest.class);
                 date = lates.date;
-                dailyList = lates.stories;
+                dailyList.clear();
+                dailyList.add(new ListItem(ListItem.DATE, date));
+                dailyList.addAll(new ListItem().setValues(ListItem.ITEM, lates.stories));
                 break;
             case GET_DAILY_BEFORE:
                 DailyBefore before = gson.fromJson(payload, DailyBefore.class);
                 date = before.date;
-                dailyList.addAll(before.stories);
+                dailyList.add(new ListItem(ListItem.DATE, date));
+                dailyList.addAll(new ListItem().setValues(ListItem.ITEM, before.stories));
                 break;
         }
         adapter.refresh(dailyList);
