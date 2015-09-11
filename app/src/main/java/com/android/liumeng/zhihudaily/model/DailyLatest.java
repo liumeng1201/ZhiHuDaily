@@ -9,5 +9,5 @@ import java.util.List;
 public class DailyLatest {
     public String date;
     public List<DailyItem> stories;
-    public List<DailyItem> top_stories;
+    public List<DailyTopItem> top_stories;
 }
