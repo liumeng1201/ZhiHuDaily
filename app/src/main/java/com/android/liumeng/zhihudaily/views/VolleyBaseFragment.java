@@ -14,6 +14,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -37,11 +38,15 @@ public abstract class VolleyBaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // 统计页面
+        MobclickAgent.onPageStart(getClass().getSimpleName());
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        // 统计页面
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
     }
 
     @Override

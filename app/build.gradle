@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -16,15 +20,62 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        // dex突破65535的限制
+        multiDexEnabled true
+        // 默认是umeng的渠道
+        manifestPlaceholders = [CHANNEL_VALUE: "_test"]
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../../myreleasekey.keystore")
+            storePassword "android"
+            keyAlias "android"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "zhihudaily_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
 
     useLibrary 'org.apache.http.legacy'
+
+    productFlavors {
+        _test {}
+        _360 {}
+        baidu_mobile_assistant {}
+        google_play {}
+        tencent_android_myapp {}
+        wandoujia {}
+        website {}
+        xiaomi {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
+    }
 }
 
 dependencies {
@@ -37,4 +88,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

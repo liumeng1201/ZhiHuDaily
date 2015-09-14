@@ -1,5 +1,6 @@
 package com.android.liumeng.zhihudaily.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,6 +22,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 public class DailyDetailsActivity extends VolleyBaseCompatActivity {
     private Toolbar toolbar;
@@ -36,10 +43,17 @@ public class DailyDetailsActivity extends VolleyBaseCompatActivity {
     private Gson gson;
     private final int GET_DAILY_DETAILS = 3100;
 
+    private UMSocialService shareController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_details);
+
+        shareController = UMServiceFactory.getUMSocialService("com.umeng.share");
+        shareController.getConfig().removePlatform(SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN, SHARE_MEDIA.QZONE, SHARE_MEDIA.TENCENT);
+        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(activity, "1104860670", "KxyWdMIjdOZyCdV2");
+        qqSsoHandler.addToSocialSDK();
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -59,6 +73,16 @@ public class DailyDetailsActivity extends VolleyBaseCompatActivity {
         long id = getIntent().getLongExtra("id", -1);
         if (id > 0) {
             getDailyDetails(id);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /* 使用SSO授权必须添加如下代码 */
+        UMSsoHandler ssoHandler = shareController.getConfig().getSsoHandler(requestCode) ;
+        if(ssoHandler != null){
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
 
@@ -118,6 +142,10 @@ public class DailyDetailsActivity extends VolleyBaseCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            shareController.setShareContent(details.title + "  " + details.share_url);
+            shareController.setShareMedia(new UMImage(activity, details.image));
+
+            shareController.openShare(activity, false);
             return true;
         } else if (id == android.R.id.home) {
             finish();

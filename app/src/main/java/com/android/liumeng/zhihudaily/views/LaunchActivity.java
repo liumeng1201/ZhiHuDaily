@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.android.liumeng.zhihudaily.R;
 import com.android.liumeng.zhihudaily.utils.StringUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.utils.Log;
 
 public class LaunchActivity extends VolleyBaseCompatActivity {
     private ImageView imageview;
@@ -34,6 +36,12 @@ public class LaunchActivity extends VolleyBaseCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.LOG = true;//BuildConfig.DEBUG;
+        // develop版本开启友盟统计debug模式，数据实时发送便于测试
+        MobclickAgent.setDebugMode(true);//BuildConfig.DEBUG);
+        // 禁止默认的页面统计方式
+        MobclickAgent.openActivityDurationTrack(false);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         imageTitle = (TextView) findViewById(R.id.launch_imageTitle);
