@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.liumeng.zhihudaily.BuildConfig;
 import com.android.liumeng.zhihudaily.R;
 import com.android.liumeng.zhihudaily.utils.StringUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,10 +37,9 @@ public class LaunchActivity extends VolleyBaseCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.LOG = true;//BuildConfig.DEBUG;
+        Log.LOG = BuildConfig.DEBUG;
         // develop版本开启友盟统计debug模式，数据实时发送便于测试
-        MobclickAgent.setDebugMode(true);//BuildConfig.DEBUG);
-        // 禁止默认的页面统计方式
+        MobclickAgent.setDebugMode(BuildConfig.DEBUG);
         MobclickAgent.openActivityDurationTrack(false);
 
         super.onCreate(savedInstanceState);
@@ -66,6 +66,18 @@ public class LaunchActivity extends VolleyBaseCompatActivity {
         imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageview.startAnimation(scaleAnim);
         handler.sendEmptyMessageDelayed(START_MAIN_ACTIVITY, 2000);
+    }
+
+    @Override
+    protected void onResume() {
+        MobclickAgent.onPageStart(getClass().getSimpleName());
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
+        super.onPause();
     }
 
     @Override

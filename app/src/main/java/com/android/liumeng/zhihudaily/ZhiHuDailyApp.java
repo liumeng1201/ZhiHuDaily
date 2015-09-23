@@ -26,11 +26,6 @@ public class ZhiHuDailyApp extends Application {
 
         RequestManager.init(this);
 
-//        if (BuildConfig.DEBUG) {
-//            CrashHandler crashHandler = CrashHandler.getInstance();
-//            crashHandler.init(getApplicationContext());
-//        }
-
         // Create global configuration and initialize ImageLoader with this config
         File uilCacheDir = new File(Utils.getFolderPath(Utils.UIL_CACHE_DIR));
         int diskCacheMaxSize = 100 * 1024 * 1024;

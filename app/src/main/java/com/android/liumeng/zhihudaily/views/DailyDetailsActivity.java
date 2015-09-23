@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -74,6 +75,18 @@ public class DailyDetailsActivity extends VolleyBaseCompatActivity {
         if (id > 0) {
             getDailyDetails(id);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        MobclickAgent.onPageStart(getClass().getSimpleName());
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
+        super.onPause();
     }
 
     @Override

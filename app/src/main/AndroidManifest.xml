@@ -40,8 +40,12 @@
         </activity>
 
         <!-- 友盟统计 Start -->
-        <meta-data android:value="YOUR_APP_KEY" android:name="55f629c467e58e6773003210" />
-        <meta-data android:value="Channel ID" android:name="${CHANNEL_VALUE}"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55f629c467e58e6773003210" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${CHANNEL_VALUE}" />
         <!-- 友盟统计 End -->
 
         <!-- ###################注册SDK使用的Activity###################### -->
